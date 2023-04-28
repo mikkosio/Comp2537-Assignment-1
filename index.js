@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 
 const saltRounds = 12;
 const port = process.env.PORT || 3000;
-const expireTime = 1000 * 60 * 60 * 24;
+const expireTime = 1000 * 60 * 60; // 1 hour
 
 
 /* secret information section */
