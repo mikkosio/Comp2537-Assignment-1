@@ -50,23 +50,99 @@ app.get('/', (req, res) => {
         return;
     }
     res.send(`
-    <h1> Welcome to the Home Page! </h1>
-    <a href='/login' style='font-size:1.5em;'> Login </a>
-    <br>
-    <a href='/signup' style='font-size:1.5em;'> Register </a>
+    <style>
+        html {
+            background-color: #90e39a;
+        }
+
+        a:link {
+            font-size:1.4em;
+            margin-bottom: 10px;
+            background-color: #18a999;
+            color: white;
+            padding: 1px 6px;
+            display: inline-block;
+            text-decoration: none;
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+        a:hover {
+            background-color: #118ab2;
+        }
+
+        .center {
+            margin: 15% auto;
+            width: 25%;
+            vertical-align: center;
+        }
+
+        h1 {
+            font-family: sans-serif;
+            color: #065143;
+        }
+    </style>
+
+    <div class='center'>
+        <h1> Welcome to the Home Page! </h1>
+        <a href='/login'> Login to your Account </a> <br>
+        <a href='/signup'> Create an Account </a>
+    </div>
     `);
 });
 
 // Sign Up Page
 app.get('/signup', (req, res) => {
     res.send(`
-    <h1> Sign Up </h1>
-    <form action='/signup' method='POST'>
-        <input type='text' name='name' placeholder='Name' required /> <br>
-        <input type='text' name='username' placeholder='Username' required /> <br>
-        <input type='password' name='password' placeholder='Password' required /> <br>
-        <input type='submit' value='Submit' />
-    </form>`)
+    <style>
+        html {
+            background-color: #90e39a;
+        }
+
+        .box {
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #b4edd2;
+        }
+
+        .center {
+            margin: 15% auto;
+            width: 15%;
+            vertical-align: center;
+        }
+
+        h2 {
+            font-family: sans-serif;
+            color: #065143;
+        }
+
+        input {
+            margin-bottom:10px;
+        }
+
+        .submit {
+            background-color: #118ab2;
+            color: white;
+            border: 1px solid black;
+            border-radius: 3px;
+            width: 100px;
+            height: 22px;
+        }
+
+        .submit:hover {
+            background-color: #0b6e87;
+        }
+    </style>
+
+    <div class='box center'>
+        <h2> Create an Account </h2>
+        <form action='/signup' method='POST'>
+            <input type='text' name='name' placeholder='Name' required/> <br>
+            <input type='text' name='username' placeholder='Username' required/> <br>
+            <input type='password' name='password' placeholder='Password' required/> <br>
+            <input type='submit' value='Submit' class='submit'/>
+        </form>
+    </div>`)
 });
 
 // Create New User
@@ -104,12 +180,55 @@ app.post('/signup', async (req, res) => {
 // Login Page
 app.get('/login', (req, res) => {
     res.send(`
-    <h1> Login </h1>
-    <form action='/login' method='POST'>
-        <input type='text' name='username' placeholder='Username' required /> <br>
-        <input type='password' name='password' placeholder='Password' required /> <br>
-        <input type='submit' value='Login' />
-    </form>`)
+        <style>
+        html {
+            background-color: #90e39a;
+        }
+
+        .box {
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #b4edd2;
+        }
+
+        .center {
+            margin: 15% auto;
+            width: 15%;
+            vertical-align: center;
+        }
+
+        h2 {
+            font-family: sans-serif;
+            color: #065143;
+        }
+
+        input {
+            margin-bottom:10px;
+        }
+
+        .submit {
+            background-color: #118ab2;
+            color: white;
+            border: 1px solid black;
+            border-radius: 3px;
+            width: 100px;
+            height: 22px;
+        }
+
+        .submit:hover {
+            background-color: #0b6e87;
+        }
+    </style>
+
+    <div class='box center'>
+        <h2> Sign In </h2>
+        <form action='/login' method='POST'>
+            <input type='text' name='username' placeholder='Username' required/><br>
+            <input type='password' name='password' placeholder='Password' required/><br>
+            <input type='submit' value='Login' class='submit'/>
+        </form>
+    </div>`)
 });
 
 app.post('/login', async (req, res) => {
