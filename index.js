@@ -92,6 +92,10 @@ app.get('/', (req, res) => {
 
 // Sign Up Page
 app.get('/signup', (req, res) => {
+    if (req.session.authenticated) {
+        res.redirect('/members');
+        return;
+    }
     res.send(`
     <style>
         html {
@@ -179,6 +183,10 @@ app.post('/signup', async (req, res) => {
 
 // Login Page
 app.get('/login', (req, res) => {
+    if (req.session.authenticated) {
+        res.redirect('/members');
+        return;
+    }
     res.send(`
         <style>
         html {
