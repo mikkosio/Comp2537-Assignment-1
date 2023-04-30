@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
             background-color: #90e39a;
         }
 
-        a:link {
+        a:link, a:visited {
             font-family: sans-serif;
             font-size:1.4em;
             margin-bottom: 10px;
@@ -67,7 +67,7 @@ app.get('/', (req, res) => {
             border: 1px solid black;
             border-radius: 3px;
         }
-        a:hover {
+        a:hover, a:active {
             background-color: #118ab2;
         }
 
@@ -309,7 +309,7 @@ app.get('/members', (req, res) => {
             margin-bottom: 20px;
         }
 
-        a:link {
+        a:link, a:visited {
             font-size:1.4em;
             margin-bottom: 10px;
             background-color: #18a999;
@@ -320,7 +320,7 @@ app.get('/members', (req, res) => {
             border: 1px solid black;
             border-radius: 3px;
         }
-        a:hover {
+        a:hover, a:active {
             background-color: #118ab2;
         }
         </style>
@@ -368,7 +368,7 @@ app.get('*', (req, res) => {
             text-align: center;
         }
 
-        a:link {
+        a:link, a:visited {
             font-size: 1.5em;
             font-family: sans-serif;
             margin-bottom: 10px;
@@ -380,7 +380,7 @@ app.get('*', (req, res) => {
             border: 1px solid black;
             border-radius: 3px;
         }
-        a:hover {
+        a:hover, a:active {
             background-color: #118ab2;
         }
         </style>
