@@ -56,6 +56,7 @@ app.get('/', (req, res) => {
         }
 
         a:link {
+            font-family: sans-serif;
             font-size:1.4em;
             margin-bottom: 10px;
             background-color: #18a999;
@@ -152,6 +153,7 @@ app.get('/signup', (req, res) => {
 // Create New User
 app.post('/signup', async (req, res) => {
     // Get username and password
+    var name = req.body.name;
     var username = req.body.username;
     var password = req.body.password;
 
@@ -173,7 +175,7 @@ app.post('/signup', async (req, res) => {
     var hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Add user to database
-    await userCollection.insertOne({ username: username, password: hashedPassword });
+    await userCollection.insertOne({ name: name, username: username, password: hashedPassword });
     console.log("User added to database");
 
 
@@ -256,7 +258,7 @@ app.post('/login', async (req, res) => {
     }
 
     // Find user in database
-    const result = await userCollection.find({ username: username }).project({ username: 1, password: 1, _id: 1 }).toArray();
+    const result = await userCollection.find({ username: username }).project({ name: 1, username: 1, password: 1, _id: 1 }).toArray();
     console.log(result);
 
     // Check if user was found
@@ -270,7 +272,7 @@ app.post('/login', async (req, res) => {
     if (await bcrypt.compare(password, result[0].password)) {
         console.log("Password is correct");
         req.session.authenticated = true;
-        req.session.username = username;
+        req.session.name = result[0].name;
         req.session.cookie.maxAge = expireTime;
 
         res.redirect('/members');
@@ -292,7 +294,39 @@ app.get('/members', (req, res) => {
         var rand = Math.floor(Math.random() * 3) + 1;
 
         // Create html string
-        var html = `<h1> Welcome ${req.session.username} </h1>`;
+        var html = `
+        <style>
+        html {
+            background-color: #90e39a;
+        }
+
+        h1 {
+            font-family: sans-serif;
+            color: #065143;
+        }
+
+        img {
+            margin-bottom: 20px;
+        }
+
+        a:link {
+            font-size:1.4em;
+            margin-bottom: 10px;
+            background-color: #18a999;
+            color: white;
+            padding: 1px 6px;
+            display: inline-block;
+            text-decoration: none;
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+        a:hover {
+            background-color: #118ab2;
+        }
+        </style>
+
+        <h1> Welcome ${req.session.name} </h1>
+        `;
         if (rand == 1) {
             html += `<img src='/Red.png'>`;
         } else if (rand == 2) {
@@ -316,7 +350,47 @@ app.use(express.static(__dirname + '/public'));
 
 // 404 page
 app.get('*', (req, res) => {
-    res.send('<h1> 404 - Page not Found </h1>');
+    res.send(`
+        <style>
+        html {
+            background-color: #90e39a;
+        }
+
+        h1, h2 {
+            font-family: sans-serif;
+            color: #065143;
+        }
+
+        .center {
+            margin: 15% auto;
+            width: 30%;
+            vertical-align: center;
+            text-align: center;
+        }
+
+        a:link {
+            font-size: 1.5em;
+            font-family: sans-serif;
+            margin-bottom: 10px;
+            background-color: #18a999;
+            color: white;
+            padding: 8px 16px;
+            display: inline-block;
+            text-decoration: none;
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+        a:hover {
+            background-color: #118ab2;
+        }
+        </style>
+
+        <div class='center'>
+            <h1> Oops Error 404! </h1>
+            <h2> Sorry, we can't find the page you are looking for. </h2>
+            <a href='/'> Return to Homepage </a>
+        </div>
+    `);
 });
 
 app.listen(port, () => {
