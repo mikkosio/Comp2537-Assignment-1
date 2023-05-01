@@ -290,7 +290,7 @@ app.post('/login', async (req, res) => {
         return;
     } else {
         console.log("Password is incorrect");
-        res.redirect('/login');
+        res.redirect('/login?msg=Invalid Username/Password!');
         return;
     }
 });
@@ -299,7 +299,7 @@ app.post('/login', async (req, res) => {
 app.get('/members', (req, res) => {
     // Check authentication
     if (!req.session.authenticated) {
-        res.redirect('/login?msg=Invalid Username/Password!');
+        res.redirect('/login');
     } else {
         // Random number from 1 to 3
         var rand = Math.floor(Math.random() * 3) + 1;
