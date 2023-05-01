@@ -189,6 +189,11 @@ app.get('/login', (req, res) => {
         res.redirect('/members');
         return;
     }
+
+    var msg = "";
+    if (req.query.msg != undefined) {
+        var msg = req.query.msg;
+    }
     res.send(`
         <style>
         html {
@@ -229,6 +234,11 @@ app.get('/login', (req, res) => {
         .submit:hover {
             background-color: #0b6e87;
         }
+
+        #msg {
+            color: red;
+            font-family: sans-serif;
+        }
     </style>
 
     <div class='box center'>
@@ -238,6 +248,7 @@ app.get('/login', (req, res) => {
             <input type='password' name='password' placeholder='Password' required/><br>
             <input type='submit' value='Login' class='submit'/>
         </form>
+        <p id='msg'> ${msg} </p>
     </div>`)
 });
 
@@ -253,7 +264,7 @@ app.post('/login', async (req, res) => {
     const validationResult = schema.validate(username);
     if (validationResult.error != null) {
         console.log(validationResult.error);
-        res.redirect('/login');
+        res.redirect('/login?msg=Invalid Username/Password!');
         return;
     }
 
@@ -264,7 +275,7 @@ app.post('/login', async (req, res) => {
     // Check if user was found
     if (result.length != 1) {
         console.log("User not found");
-        res.redirect('/login');
+        res.redirect('/login?msg=Invalid Username/Password!');
         return;
     }
 
@@ -279,7 +290,7 @@ app.post('/login', async (req, res) => {
         return;
     } else {
         console.log("Password is incorrect");
-        res.redirect('/login');
+        res.redirect('/login?msg=Invalid Username/Password!');
         return;
     }
 });
@@ -288,7 +299,7 @@ app.post('/login', async (req, res) => {
 app.get('/members', (req, res) => {
     // Check authentication
     if (!req.session.authenticated) {
-        res.redirect('/login');
+        res.redirect('/login?msg=Invalid Username/Password!');
     } else {
         // Random number from 1 to 3
         var rand = Math.floor(Math.random() * 3) + 1;
