@@ -290,7 +290,7 @@ app.post('/login', async (req, res) => {
         return;
     } else {
         console.log("Password is incorrect");
-        res.redirect('/login?msg=Invalid Username/Password!');
+        res.redirect('/login');
         return;
     }
 });
