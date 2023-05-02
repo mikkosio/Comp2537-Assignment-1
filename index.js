@@ -175,7 +175,7 @@ app.post('/signup', async (req, res) => {
     var hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Add user to database
-    await userCollection.insertOne({ name: name, username: username, password: hashedPassword });
+    await userCollection.insertOne({ name: name, username: username, password: hashedPassword, role: 'user' });
     console.log("User added to database");
 
 
@@ -269,7 +269,7 @@ app.post('/login', async (req, res) => {
     }
 
     // Find user in database
-    const result = await userCollection.find({ username: username }).project({ name: 1, username: 1, password: 1, _id: 1 }).toArray();
+    const result = await userCollection.find({ username: username }).project({ name: 1, username: 1, password: 1, role: 1, _id: 1 }).toArray();
     console.log(result);
 
     // Check if user was found
@@ -285,6 +285,9 @@ app.post('/login', async (req, res) => {
         req.session.authenticated = true;
         req.session.name = result[0].name;
         req.session.cookie.maxAge = expireTime;
+        if (result[0].role == 'admin') {
+            req.session.admin = true;
+        }
 
         res.redirect('/members');
         return;
@@ -349,6 +352,31 @@ app.get('/members', (req, res) => {
 
         // Send html string
         res.send(html);
+    }
+});
+
+app.get('/admin', (req, res) => {
+    // Check authentication
+    if (!req.session.authenticated) {
+        res.redirect('/login');
+        // Check admin authentication
+    } else if (!req.session.admin) {
+        return res.status(403).send("You are not authorized to view this page");
+    } else {
+        res.send(`
+        <style>
+            html {
+                background-color: #90e39a;
+            }
+
+            h1 {
+                font-family: sans-serif;
+                color: #065143;
+            }
+        </style>
+
+        <h1> Welcome Admin ${req.session.name} </h1>
+        `)
     }
 });
 
