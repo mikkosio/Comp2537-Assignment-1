@@ -25,6 +25,8 @@ const node_session_secret = process.env.NODE_SESSION_SECRET;
 var { database } = include('databaseConnection');
 const userCollection = database.db(mongodb_database).collection('users');
 
+app.set('view engine', 'ejs');
+
 var mongoStore = MongoStore.create({
     mongoUrl: `mongodb+srv://${mongodb_user}:${mongodb_password}@${mongodb_host}/sessions`,
     crypto: {
@@ -49,46 +51,7 @@ app.get('/', (req, res) => {
         res.redirect('/members');
         return;
     }
-    res.send(`
-    <style>
-        html {
-            background-color: #90e39a;
-        }
-
-        a:link, a:visited {
-            font-family: sans-serif;
-            font-size:1.4em;
-            margin-bottom: 10px;
-            background-color: #18a999;
-            color: white;
-            padding: 1px 6px;
-            display: inline-block;
-            text-decoration: none;
-            border: 1px solid black;
-            border-radius: 3px;
-        }
-        a:hover, a:active {
-            background-color: #118ab2;
-        }
-
-        .center {
-            margin: 15% auto;
-            width: 25%;
-            vertical-align: center;
-        }
-
-        h1 {
-            font-family: sans-serif;
-            color: #065143;
-        }
-    </style>
-
-    <div class='center'>
-        <h1> Welcome to the Home Page! </h1>
-        <a href='/login'> Login to your Account </a> <br>
-        <a href='/signup'> Create an Account </a>
-    </div>
-    `);
+    res.render('index');
 });
 
 // Sign Up Page
@@ -97,57 +60,7 @@ app.get('/signup', (req, res) => {
         res.redirect('/members');
         return;
     }
-    res.send(`
-    <style>
-        html {
-            background-color: #90e39a;
-        }
-
-        .box {
-            border: 1px solid;
-            border-radius: 10px;
-            padding: 10px;
-            background-color: #b4edd2;
-        }
-
-        .center {
-            margin: 15% auto;
-            width: 15%;
-            vertical-align: center;
-        }
-
-        h2 {
-            font-family: sans-serif;
-            color: #065143;
-        }
-
-        input {
-            margin-bottom:10px;
-        }
-
-        .submit {
-            background-color: #118ab2;
-            color: white;
-            border: 1px solid black;
-            border-radius: 3px;
-            width: 100px;
-            height: 22px;
-        }
-
-        .submit:hover {
-            background-color: #0b6e87;
-        }
-    </style>
-
-    <div class='box center'>
-        <h2> Create an Account </h2>
-        <form action='/signup' method='POST'>
-            <input type='text' name='name' placeholder='Name' required/> <br>
-            <input type='text' name='username' placeholder='Username' required/> <br>
-            <input type='password' name='password' placeholder='Password' required/> <br>
-            <input type='submit' value='Submit' class='submit'/>
-        </form>
-    </div>`)
+    res.render('signup');
 });
 
 // Create New User
@@ -194,62 +107,9 @@ app.get('/login', (req, res) => {
     if (req.query.msg != undefined) {
         var msg = req.query.msg;
     }
-    res.send(`
-        <style>
-        html {
-            background-color: #90e39a;
-        }
-
-        .box {
-            border: 1px solid;
-            border-radius: 10px;
-            padding: 10px;
-            background-color: #b4edd2;
-        }
-
-        .center {
-            margin: 15% auto;
-            width: 15%;
-            vertical-align: center;
-        }
-
-        h2 {
-            font-family: sans-serif;
-            color: #065143;
-        }
-
-        input {
-            margin-bottom:10px;
-        }
-
-        .submit {
-            background-color: #118ab2;
-            color: white;
-            border: 1px solid black;
-            border-radius: 3px;
-            width: 100px;
-            height: 22px;
-        }
-
-        .submit:hover {
-            background-color: #0b6e87;
-        }
-
-        #msg {
-            color: red;
-            font-family: sans-serif;
-        }
-    </style>
-
-    <div class='box center'>
-        <h2> Sign In </h2>
-        <form action='/login' method='POST'>
-            <input type='text' name='username' placeholder='Username' required/><br>
-            <input type='password' name='password' placeholder='Password' required/><br>
-            <input type='submit' value='Login' class='submit'/>
-        </form>
-        <p id='msg'> ${msg} </p>
-    </div>`)
+    res.render('login', {
+        'msg': msg
+    });
 });
 
 app.post('/login', async (req, res) => {
@@ -307,51 +167,19 @@ app.get('/members', (req, res) => {
         // Random number from 1 to 3
         var rand = Math.floor(Math.random() * 3) + 1;
 
-        // Create html string
-        var html = `
-        <style>
-        html {
-            background-color: #90e39a;
-        }
-
-        h1 {
-            font-family: sans-serif;
-            color: #065143;
-        }
-
-        img {
-            margin-bottom: 20px;
-        }
-
-        a:link, a:visited {
-            font-size:1.4em;
-            margin-bottom: 10px;
-            background-color: #18a999;
-            color: white;
-            padding: 1px 6px;
-            display: inline-block;
-            text-decoration: none;
-            border: 1px solid black;
-            border-radius: 3px;
-        }
-        a:hover, a:active {
-            background-color: #118ab2;
-        }
-        </style>
-
-        <h1> Welcome ${req.session.name} </h1>
-        `;
         if (rand == 1) {
-            html += `<img src='/Red.png'>`;
+            img_file = '/Red.png';
         } else if (rand == 2) {
-            html += `<img src='/Green.png'>`;
+            img_file = '/Green.png';
         } else {
-            html += `<img src='/Orange.png'>`;
+            img_file = '/Orange.png';
         }
-        html += `<br><a href='/logout' style='font-size:1.5em;'> Logout </a>`;
 
         // Send html string
-        res.send(html);
+        res.render('members', {
+            'name': req.session.name,
+            'img_file': img_file
+        });
     }
 });
 
@@ -363,20 +191,9 @@ app.get('/admin', (req, res) => {
     } else if (!req.session.admin) {
         return res.status(403).send("You are not authorized to view this page");
     } else {
-        res.send(`
-        <style>
-            html {
-                background-color: #90e39a;
-            }
-
-            h1 {
-                font-family: sans-serif;
-                color: #065143;
-            }
-        </style>
-
-        <h1> Welcome Admin ${req.session.name} </h1>
-        `)
+        res.render('admin', {
+            'name': req.session.name
+        });
     }
 });
 
