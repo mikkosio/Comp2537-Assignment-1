@@ -229,47 +229,8 @@ app.use(express.static(__dirname + '/public'));
 
 // 404 page
 app.get('*', (req, res) => {
-    res.send(`
-        <style>
-        html {
-            background-color: #90e39a;
-        }
-
-        h1, h2 {
-            font-family: sans-serif;
-            color: #065143;
-        }
-
-        .center {
-            margin: 15% auto;
-            width: 30%;
-            vertical-align: center;
-            text-align: center;
-        }
-
-        a:link, a:visited {
-            font-size: 1.5em;
-            font-family: sans-serif;
-            margin-bottom: 10px;
-            background-color: #18a999;
-            color: white;
-            padding: 8px 16px;
-            display: inline-block;
-            text-decoration: none;
-            border: 1px solid black;
-            border-radius: 3px;
-        }
-        a:hover, a:active {
-            background-color: #118ab2;
-        }
-        </style>
-
-        <div class='center'>
-            <h1> Oops Error 404! </h1>
-            <h2> Sorry, we can't find the page you are looking for. </h2>
-            <a href='/'> Return to Homepage </a>
-        </div>
-    `);
+    res.status(404);
+    res.render('404');
 });
 
 app.listen(port, () => {
