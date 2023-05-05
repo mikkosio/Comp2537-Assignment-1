@@ -1,38 +1,11 @@
-<style>
-    html {
-        background-color: #90e39a;
-    }
+<%- include("templates/header") %>
+<%- include("styles/members_style") %>
+<%- include("templates/header_closer") %>
 
-    h1 {
-        font-family: sans-serif;
-        color: #065143;
-    }
+    <h1> Welcome <%= name %>
+    </h1>
+    <img src="<%= img_file %>">
+    <br>
+    <a href='/logout' style='font-size:1.5em;'> Logout </a>
 
-    img {
-        margin-bottom: 20px;
-    }
-
-    a:link,
-    a:visited {
-        font-size: 1.4em;
-        margin-bottom: 10px;
-        background-color: #18a999;
-        color: white;
-        padding: 1px 6px;
-        display: inline-block;
-        text-decoration: none;
-        border: 1px solid black;
-        border-radius: 3px;
-    }
-
-    a:hover,
-    a:active {
-        background-color: #118ab2;
-    }
-</style>
-
-<h1> Welcome <%= name %>
-</h1>
-<img src="<%= img_file %>">
-<br>
-<a href='/logout' style='font-size:1.5em;'> Logout </a>
+<%- include("templates/footer") %>

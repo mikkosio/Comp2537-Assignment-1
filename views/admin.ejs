@@ -1,13 +1,7 @@
-<style>
-    html {
-        background-color: #90e39a;
-    }
+<%- include("templates/header") %>
+<%- include("styles/admin_style") %>
+<%- include("templates/header_closer") %>
 
-    h1 {
-        font-family: sans-serif;
-        color: #065143;
-    }
-</style>
+    <h1> Welcome Admin <%= name %> </h1>
 
-<h1> Welcome Admin <%= name %>
-</h1>
+<%- include("templates/footer") %>

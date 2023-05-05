@@ -1,50 +1,15 @@
-<style>
-    html {
-        background-color: #90e39a;
-    }
+<%- include("templates/header") %>
+<%- include("styles/login_signup_style") %>
+<%- include("templates/header_closer") %>
 
-    .box {
-        border: 1px solid;
-        border-radius: 10px;
-        padding: 10px;
-        background-color: #b4edd2;
-    }
+    <div class='box center'>
+        <h2> Create an Account </h2>
+        <form action='/signup' method='POST'>
+            <input type='text' name='name' placeholder='Name' required /> <br>
+            <input type='text' name='username' placeholder='Username' required /> <br>
+            <input type='password' name='password' placeholder='Password' required /> <br>
+            <input type='submit' value='Submit' class='submit' />
+        </form>
+    </div>
 
-    .center {
-        margin: 15% auto;
-        width: 15%;
-        vertical-align: center;
-    }
-
-    h2 {
-        font-family: sans-serif;
-        color: #065143;
-    }
-
-    input {
-        margin-bottom: 10px;
-    }
-
-    .submit {
-        background-color: #118ab2;
-        color: white;
-        border: 1px solid black;
-        border-radius: 3px;
-        width: 100px;
-        height: 22px;
-    }
-
-    .submit:hover {
-        background-color: #0b6e87;
-    }
-</style>
-
-<div class='box center'>
-    <h2> Create an Account </h2>
-    <form action='/signup' method='POST'>
-        <input type='text' name='name' placeholder='Name' required /> <br>
-        <input type='text' name='username' placeholder='Username' required /> <br>
-        <input type='password' name='password' placeholder='Password' required /> <br>
-        <input type='submit' value='Submit' class='submit' />
-    </form>
-</div>
+<%- include("templates/footer") %>
