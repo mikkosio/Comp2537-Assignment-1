@@ -44,6 +44,41 @@ app.use(session({
 
 app.use(express.urlencoded({ extended: false }));
 
+// Middleware
+
+// Check authentication
+function isValidSession(req) {
+    if (req.session.authenticated) {
+        return true;
+    }
+    return false;
+}
+
+function sessionValidation(req, res, next) {
+    if (!isValidSession(req)) {
+        res.redirect('/login');
+    }
+    else {
+        next();
+    }
+}
+
+function isAdmin(req) {
+    if (req.session.admin) {
+        return true;
+    }
+    return false;
+}
+
+function adminAuthorization(req, res, next) {
+    if (!isAdmin(req)) {
+        res.status(403).send("You are not authorized to view this page");
+    }
+    else {
+        next();
+    }
+}
+
 
 // Home Page
 app.get('/', (req, res) => {
@@ -159,42 +194,30 @@ app.post('/login', async (req, res) => {
 });
 
 // Members Page
-app.get('/members', (req, res) => {
-    // Check authentication
-    if (!req.session.authenticated) {
-        res.redirect('/login');
+app.get('/members', sessionValidation, (req, res) => {
+    // Random number from 1 to 3
+    var rand = Math.floor(Math.random() * 3) + 1;
+
+    if (rand == 1) {
+        img_file = '/Red.png';
+    } else if (rand == 2) {
+        img_file = '/Green.png';
     } else {
-        // Random number from 1 to 3
-        var rand = Math.floor(Math.random() * 3) + 1;
-
-        if (rand == 1) {
-            img_file = '/Red.png';
-        } else if (rand == 2) {
-            img_file = '/Green.png';
-        } else {
-            img_file = '/Orange.png';
-        }
-
-        // Send html string
-        res.render('members', {
-            'name': req.session.name,
-            'img_file': img_file
-        });
+        img_file = '/Orange.png';
     }
+
+    // Send html string
+    res.render('members', {
+        'name': req.session.name,
+        'img_file': img_file
+    });
 });
 
-app.get('/admin', (req, res) => {
-    // Check authentication
-    if (!req.session.authenticated) {
-        res.redirect('/login');
-        // Check admin authentication
-    } else if (!req.session.admin) {
-        return res.status(403).send("You are not authorized to view this page");
-    } else {
-        res.render('admin', {
-            'name': req.session.name
-        });
-    }
+// Admin page
+app.get('/admin', sessionValidation, adminAuthorization, (req, res) => {
+    res.render('admin', {
+        'name': req.session.name
+    });
 });
 
 app.get('/logout', (req, res) => {
