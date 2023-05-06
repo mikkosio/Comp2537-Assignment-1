@@ -123,7 +123,7 @@ app.post('/signup', async (req, res) => {
     const validationResult = schema.validate({ username, password });
     if (validationResult.error != null) {
         console.log(validationResult.error);
-        res.redirect('/signup');
+        res.redirect('/signup?msg=Invalid Username!');
         return;
     }
 
@@ -142,8 +142,13 @@ app.post('/signup', async (req, res) => {
     await userCollection.insertOne({ name: name, username: username, password: hashedPassword, role: 'user' });
     console.log("User added to database");
 
+    // Set session variables
+    req.session.authenticated = true;
+    req.session.name = name;
+    req.session.cookie.maxAge = expireTime;
 
-    res.send("Successfully created user!");
+    // Redirect to members page
+    res.redirect('/members');
 });
 
 
@@ -271,7 +276,7 @@ app.post('/updateUser', async (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.send('You have been logged out');
+    res.redirect('/');
 });
 
 app.use(express.static(__dirname + '/public'));
