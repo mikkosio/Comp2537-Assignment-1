@@ -6,6 +6,7 @@ const Joi = require('joi');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const bcrypt = require('bcrypt');
+const { ObjectId } = require('mongodb');
 
 const saltRounds = 12;
 const port = process.env.PORT || 3000;
@@ -221,6 +222,36 @@ app.get('/admin', sessionValidation, adminAuthorization, async (req, res) => {
         'name': req.session.name,
         'users': users
     });
+});
+
+// Admin actions
+app.post('/updateUser', async (req, res) => {
+    try {
+        const userId = new ObjectId(req.body.userId);
+        const action = req.body.action;
+
+        // Find user in database
+        var user = await userCollection.findOne({ _id: userId });
+
+        // Update the user's role based on action
+        if (action == 'Promote') {
+            user.role = 'admin';
+        } else if (action == 'Demote') {
+            user.role = 'user';
+        }
+
+        // Update user in database
+        await userCollection.updateOne(
+            { _id: userId}, 
+            { $set: { role: user.role } 
+        });
+
+        // Redirect to admin page
+        res.redirect('/admin');
+
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 app.get('/logout', (req, res) => {
