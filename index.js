@@ -96,7 +96,14 @@ app.get('/signup', (req, res) => {
         res.redirect('/members');
         return;
     }
-    res.render('signup');
+    
+    var msg = "";
+    if (req.query.msg != undefined) {
+        var msg = req.query.msg;
+    }
+    res.render('signup', {
+        'msg': msg
+    });
 });
 
 // Create New User
@@ -117,6 +124,14 @@ app.post('/signup', async (req, res) => {
     if (validationResult.error != null) {
         console.log(validationResult.error);
         res.redirect('/signup');
+        return;
+    }
+
+    // Check if username already exists
+    const result = await userCollection.find({ username: username }).toArray();
+    if (result.length != 0) {
+        console.log("Username already exists");
+        res.redirect('/signup?msg=Username already exists!');
         return;
     }
 
