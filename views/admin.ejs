@@ -1,27 +1,31 @@
 <%- include("templates/header") %>
 <%- include("templates/navbar") %>
 
-    <h1 class="mb-3"> Welcome Admin <%= name %> </h1>
+    <div class="container max-width-lg my-5">
+        <h1 class="mb-3"> Welcome Admin <%= name %> </h1>
 
-    <div class="container ms-3">
-        <h2> Users list </h2>
+        <div class="container">
+            <h2> Users list </h2>
 
-        <table class="table table-secondary table-striped">
-            <thead class="table-primary">
-                <tr>
-                    <th> Username </th>
-                    <th> Role </th>
-                    <th> Actions </th>
-                </tr>   
-            </thead>
+            <table class="table table-secondary table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th> Username </th>
+                        <th> Role </th>
+                        <th> Actions </th>
+                    </tr>   
+                </thead>
 
-            <tbody class="table-group-divider">
-                <% users.forEach(function(user) { %>
-                    <%- include("templates/users", {user: user}) %>
-                <% }); %>
-            </tbody>
-        </table>
+                <tbody class="table-group-divider">
+                    <% users.forEach(function(user) { %>
+                        <%- include("templates/users", {user: user}) %>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    
 
 
 
