@@ -1,15 +1,27 @@
 <%- include("templates/header") %>
 <%- include("templates/navbar") %>
 
-    <h1 class="mb-3"> Welcome <%= name %> </h1>
+    <div class="container max-width-lg my-5">
+        <h1 class="mb-3"> Welcome <%= name %> </h1>
 
-    <div class="container ms-3 mb-3">
-        <img src="<%= img_file %>">
-        <br>
+        <div class="container mb-5">
+            <h3> Random Images </h3>
+            <img src="<%= img_file %>">
+        </div>
+
+        <div class="container mb-5">
+            <h3> Responsive Images </h3>
+            
+            <div class="row">
+                <div class="col-md-4 themed-grid-col mb-3"> <img src="/baguette1.jpg" alt="baguette1" class="img-fluid"> </div>
+                <div class="col-md-4 themed-grid-col mb-3"> <img src="/baguette2.jpg" alt="baguette2" class="img-fluid"> </div>
+                <div class="col-md-4 themed-grid-col mb-3"> <img src="/baguette3.jpg" alt="baguette3" class="img-fluid"> </div>
+            </div>
+        </div>
+
+        <a href='/logout' class="btn btn-danger p-1 fs-6 fw-medium"> Logout </a>
     </div>
 
-    <a href='/logout' class="btn btn-danger p-1 fs-6 fw-medium"> Logout </a>
+    
         
-
-
 <%- include("templates/footer") %>
