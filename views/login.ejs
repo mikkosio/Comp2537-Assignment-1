@@ -1,8 +1,8 @@
 <%- include("templates/header") %>
 
     <div class="container p-5">
-        <h2> Sign In </h2>
-        <form action='/login' method='POST'>
+        <form action='/login' method='POST' class="col-5 mx-auto">
+            <h2> Sign In </h2>
             <div class="mb-3">
                 <label for="inputUsername" class="form-label"> Username </label>
                 <input type="text" class="form-control" name="username" id="inputUsername" required>
@@ -15,10 +15,10 @@
             <p class="d-inline-block float-end"> 
                 Don't have an account? <a href="/signup"> Create one here. </a>
             </p>
+            <p class="text-danger fw-medium">
+                <%= msg %>
+            </p>
         </form>
-        <p class="text-danger fw-medium">
-            <%= msg %>
-        </p>
     </div>
 
 <%- include("templates/footer") %>
