@@ -234,6 +234,11 @@ app.get('/members', sessionValidation, (req, res) => {
     });
 });
 
+// Baguettes Page
+app.get('/baguettes', sessionValidation, (req, res) => {
+    res.render('baguettes');
+});
+
 // Admin page
 app.get('/admin', sessionValidation, adminAuthorization, async (req, res) => {
     const users = await userCollection.find().project({username: 1, role: 1, _id: 1 }).toArray();
