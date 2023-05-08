@@ -5,14 +5,14 @@
     <td>
         <%= user.role %>
     </td>
-    <td class="table_actions">
-        <form action="updateUser" method="POST">
+    <td>
+        <form action="updateUser" method="POST" class="d-inline">
             <input type="hidden" name="userId" value="<%= user._id %>">
-            <input type="submit" name="action" value="Demote" id="demote">
+            <button type="submit" name="action" value="Demote" class="btn btn-danger fw-medium"> Demote </button>
         </form>
-        <form action="updateUser" method="POST">
+        <form action="updateUser" method="POST" class="d-inline">
             <input type="hidden" name="userId" value="<%= user._id %>">
-            <input type="submit" name="action" value="Promote" id="promote">
+            <button type="submit" name="action" value="Promote" class="btn btn-success fw-medium"> Promote </button>
         </form>
     </td>
 </tr>

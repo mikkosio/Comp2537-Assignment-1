@@ -1,10 +1,15 @@
 <%- include("templates/header") %>
 <%- include("templates/navbar") %>
 
-    <h1> Welcome <%= name %>
-    </h1>
-    <img src="<%= img_file %>">
-    <br>
-    <a href='/logout' style='font-size:1.5em;'> Logout </a>
+    <h1 class="mb-3"> Welcome <%= name %> </h1>
+
+    <div class="container ms-3 mb-3">
+        <img src="<%= img_file %>">
+        <br>
+    </div>
+
+    <a href='/logout' class="btn btn-danger p-1 fs-6 fw-medium"> Logout </a>
+        
+
 
 <%- include("templates/footer") %>
